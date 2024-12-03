@@ -71,6 +71,6 @@ def crear_auto(request):
     # de la terminal interactiva me traigo el codigo
     
     auto = Auto(marca = random.choice(['Ford','Fiat','Renault']), modelo = 'wtf', anio = random.choice([2020,2021,2023]))
-    auto.save() # siempre hay que decirle que se guarde 
+    auto.save()
     
     return render(request, 'auto_correctamente_creado.html', {})
