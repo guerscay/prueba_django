@@ -8,8 +8,14 @@ from django.shortcuts import render
 from inicio.models import Auto
 import random
 
+def home(request):
+    #return HttpResponse('<h1> Bienvenidos! </h1>')
+    return render (request, 'inicio/home.html', {})
+
 def bienvenida(request):
-    return HttpResponse('<h1> Bienvenidos! </h1>')
+    #return HttpResponse('<h1> Bienvenidos! </h1>')
+    return render (request, 'inicio/bienvenida.html', {})
+
 
 def fecha_y_hora(request):
     fecha_y_hora = datetime.now()
@@ -36,7 +42,7 @@ def mitemplate(request):
     # return render(request, 'mitemplate.html', {'nombre':'pepe'} ) # el contexto es opcional
 
 # VERSION 3 - LA QUE QUEDA!!!!!
-    return render (request, 'mitemplate.html', {'nombre':'pepe'} ) #request, template, contexto (opcional)
+    return render (request, 'inicio/mitemplate.html', {'nombre':'pepe'} ) #request, template, contexto (opcional)
 
 
 # --------------------------------------------------------------------------------------------
@@ -45,7 +51,7 @@ def mitemplate2(request):
 # VERSION 2 - NUEVA VERSION MEJORADA
    
     # Cambié el BASE DIR que es algo de python, pero no de DJANGO, entonces necesito usar el loader
-    template = loader.get_template('mitemplate2.html')
+    template = loader.get_template('inicio/mitemplate2.html')
     
    # Ya no necesitamos crear un contexto pq estamos trabajando con el loader.get_template
    # directamente en lugar del context tenemos que colocar el diccionario que queremos ver
@@ -56,7 +62,7 @@ def mitemplate2(request):
 
 def condicional_loop(request):
     
-    return render (request, 'condicional_loop.html',  {
+    return render (request, 'inicio/condicional_loop.html',  {
       'nombre':'Ricardo',
       'mis_elementos':[22],
       'numero': 2,
@@ -67,10 +73,11 @@ def condicional_loop(request):
 
 #---------------------------------------------------------------------------------------------
 
-def crear_auto(request):
+def crear_auto(request, marca, modelo, anio):
     # de la terminal interactiva me traigo el codigo
     
-    auto = Auto(marca = random.choice(['Ford','Fiat','Renault']), modelo = 'wtf', anio = random.choice([2020,2021,2023]))
+    #auto = Auto(marca = random.choice(['Ford','Fiat','Renault']), modelo = 'wtf', anio = random.choice([2020,2021,2023]))
+    auto = Auto(marca = marca, modelo = modelo, anio = anio)
     auto.save()
     
-    return render(request, 'auto_correctamente_creado.html', {})
+    return render(request, 'inicio/auto_correctamente_creado.html', {'auto':auto})

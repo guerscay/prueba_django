@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title_head %}
+Condicional_Loop
+{% endblock title_head %}
+
+{% block h1_header %}
+Condicional_Loop
+{% endblock h1_header %}
+
+{% comment %} {% block header %}
+Inicio - Inicio
+{% endblock header %} {% endcomment %}
+
+{% block main %}
+<h1>Hola, soy el condicional y loop</h1>
+<p>Hola, soy el parrafo de condicional y loop</p>
+{% endblock main %}
+
+-----------------------------------------------------------------------------------------
+
+{% if mis_elementos %}  
+
+<p> Mi lista tiene valores </p>
+
+{% else %}
+
+<p> Mi lista NO tiene valores </p>
+{% endif %}
+-----------------------------------------------------------------------------------------    
+
+{% if numeros|length > 10 %}  
+
+<ul>
+    {% for numero in numeros %}
+    <li>
+        {{numero}}
+    </li>
+    {% endfor %} 
+  
+</ul>
+{% endif %}
+    
+-----------------------------------------------------------------------------------------
