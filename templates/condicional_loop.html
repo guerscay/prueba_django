@@ -1,0 +1,31 @@
+<h1> este es el html de condicionales y bucles </h1>
+
+<p>
+{{nombre}}
+</p>
+
+-----------------------------------------------------------------------------------------
+
+{% if mis_elementos %}  
+
+<p> Mi lista tiene valores </p>
+
+{% else %}
+
+<p> Mi lista NO tiene valores </p>
+{% endif %}
+-----------------------------------------------------------------------------------------    
+
+{% if numeros|length > 10 %}  
+
+<ul>
+    {% for numero in numeros %}
+    <li>
+        {{numero}}
+    </li>
+    {% endfor %} 
+  
+</ul>
+{% endif %}
+    
+-----------------------------------------------------------------------------------------

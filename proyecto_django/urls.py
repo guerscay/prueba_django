@@ -15,8 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+# aca puedo ver la modificacion automatica que se hizo cuando cambié la carpeta de lugar
+# el tema es que me lo trae automaticamente como ..inicio.views (dos carpetas por arriba de inicio) y yo necesito que sea directo
+#desde inicio, y por eso queda finalmente: inicio.views (ver aquí abajo)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include("inicio.urls"))    # include el nombre de la aplicacion (inicio) y el archivo donde tengo los "links" (urls)
 ]
