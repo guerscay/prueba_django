@@ -72,12 +72,17 @@ def condicional_loop(request):
 # Todo lo que es views y url se debe combinar en un mismo lugar llamado "APLICACIÓN"
 
 #---------------------------------------------------------------------------------------------
+# opcion 1
+# def crear_auto(request, marca, modelo, anio):
+#     # de la terminal interactiva me traigo el codigo
+    
+#     #auto = Auto(marca = random.choice(['Ford','Fiat','Renault']), modelo = 'wtf', anio = random.choice([2020,2021,2023]))
+#     auto = Auto(marca = marca, modelo = modelo, anio = anio)
+#     auto.save()
+    
+#     return render(request, 'inicio/auto_correctamente_creado.html', {'auto':auto})
+#_---------------------------------------------------------------------------------------
 
-def crear_auto(request, marca, modelo, anio):
-    # de la terminal interactiva me traigo el codigo
-    
-    #auto = Auto(marca = random.choice(['Ford','Fiat','Renault']), modelo = 'wtf', anio = random.choice([2020,2021,2023]))
-    auto = Auto(marca = marca, modelo = modelo, anio = anio)
-    auto.save()
-    
-    return render(request, 'inicio/auto_correctamente_creado.html', {'auto':auto})
+# Opcion 2 crear auto - formulario
+def crear_auto(request):
+    return render (request, 'inicio/crear_auto.html',{})

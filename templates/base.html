@@ -26,7 +26,8 @@
             <div class="container">
                 <a class="navbar-brand" href={% url "inicio:home"%}>home</a>
                 <a class="navbar-brand" href={% url "inicio:bienvenida"%}>Bienvenida</a>
-                <a class="navbar-brand" href={% url "inicio:mitemplate2"%}>MiTemplate2</a>
+                {% comment %} <a class="navbar-brand" href={% url "inicio:mitemplate2"%}>MiTemplate2</a> {% endcomment %}
+                <a class="navbar-brand" href={% url "inicio:crear_auto"%}>Crear Auto</a>
                 {%comment%} <a class="btn btn-primary" href="#signup">Sign Up</a> {%endcomment%}
             </div>
         </nav>

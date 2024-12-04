@@ -12,6 +12,7 @@ urlpatterns = [
     path('saludo/<nombre>/<apellido>/', saludo, name = 'saludo'), 
     path('mitemplate/', mitemplate, name = 'mitemplate'),
     path('mitemplate2/', mitemplate2, name = 'mitemplate2'),
-    path('condicional_loop/', condicional_loop, name = 'condicional_loop'),
-     path('crear_auto/<str:marca>/<str:modelo>/<int:anio>', crear_auto, name = 'crear_auto')
+    path('condicional_loop/', condicional_loop, name = 'condicional_loop')
+    #,path('crear_auto/<str:marca>/<str:modelo>/<int:anio>', crear_auto, name = 'crear_auto') # opcion 1
+    ,path('autos/crear', crear_auto, name = 'crear_auto')
     ]
