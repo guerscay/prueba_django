@@ -7,6 +7,7 @@ from django.template import Template, Context, loader
 from django.shortcuts import render 
 from inicio.models import Auto
 import random
+from inicio.forms import CrearAuto  # formularios!!!!!!!
 
 def home(request):
     #return HttpResponse('<h1> Bienvenidos! </h1>')
@@ -83,16 +84,16 @@ def condicional_loop(request):
 #     return render(request, 'inicio/auto_correctamente_creado.html', {'auto':auto})
 #_---------------------------------------------------------------------------------------
 
-# Opcion 2 crear auto - formulario
-def crear_auto(request):
+# Opcion 2 crear auto - post/get sin formulario
+# def crear_auto(request):
     
-    ###### VEAMOS QUE EL GET SE PUEDE USAR, PERO NO SE RECOMIENDA  ######
+#     ###### VEAMOS QUE EL GET SE PUEDE USAR, PERO NO SE RECOMIENDA  ######
     
-    #Verifica los datos que recibes
-    print('*****************************')
-    print('GET', request.GET)  # Verifica qué datos estás recibiendo
-    print('POST', request.POST)
-    print('******************************')
+#     #Verifica los datos que recibes
+#     print('*****************************')
+#     print('GET', request.GET)  # Verifica qué datos estás recibiendo
+#     print('POST', request.POST)
+#     print('******************************')
 
     # marca = request.GET.get('marca')
     # modelo = request.GET.get('modelo')
@@ -108,24 +109,44 @@ def crear_auto(request):
     # return render(request, 'inicio/crear_auto.html', {})
 
 ###### AHORA LO HACEMOS CON EL POST
+# def crear_auto(request):
+    
+#     marca = request.POST.get('marca')
+#     modelo = request.POST.get('modelo')
+#     anio = request.POST.get('anio')
 
-    marca = request.POST.get('marca')
-    modelo = request.POST.get('modelo')
-    anio = request.POST.get('anio')
+#     # si la request viene por POST sí lo creo, si viene por GET no
+#     if request.method == 'POST':
+        
+#     # Para evitar el error de los not null
+#         if marca and modelo and  anio:
+#         # Si los parámetros son válidos, guarda el auto
+#             auto = Auto(marca=marca, modelo=modelo, anio=anio)
+#             auto.save() 
 
+#     # Renderiza la página de éxito
+#     return render(request, 'inicio/crear_auto.html', {})
+
+# -----------------------------------------------------------------------------
+# Opción 3 - Formulario (inicio/forms.py)
+    #Para esto tengo que hacer el import forms
+    
+def crear_auto(request):
+    
+    formulario = CrearAuto()
+    
     # si la request viene por POST sí lo creo, si viene por GET no
     if request.method == 'POST':
-        
-    # Para evitar el error de los not null
-        if marca and modelo and  anio:
-        # Si los parámetros son válidos, guarda el auto
-            auto = Auto(marca=marca, modelo=modelo, anio=anio)
+        formulario = CrearAuto(request.POST)   
+        if formulario.is_valid():
+            
+            data = formulario.cleaned_data
+            
+            auto = Auto(marca=data.get('marca'), modelo=data.get('modelo'), anio=data.get('anio'))
             auto.save() 
+            
+            return render(request, 'inicio/home.html',{})
 
     # Renderiza la página de éxito
-    return render(request, 'inicio/crear_auto.html', {})
-
-
-    
-
+    return render(request, 'inicio/crear_auto.html', {'formulario':formulario}) #mi contexto ahora es el formulario
 

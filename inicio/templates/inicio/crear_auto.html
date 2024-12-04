@@ -23,27 +23,27 @@ Por un tema de seguridad se activa el CSRF token. Sin esto el post no puede func
 
 {% comment %} 
 <form action={% url "inicio:crear_auto" %} method = "get">  
-es recomendable hacerlo por post porque protege mejor la información {% endcomment %}
+es recomendable hacerlo por post porque protege mejor la información 
 <p>
     marca
     <input type="text" name= 'marca' placeholder = 'marca'>
 </p>
-
 <p>
     modelo
     <input type="text" name= 'modelo' placeholder = 'modelo'>
-
-</p>
-    
+</p> 
 <p>
     anio
     <input type="number" name= 'anio' placeholder = 'anio'>
-    {% comment %} tiene que ir excrito exactamente igual a lo que sale en el view {% endcomment %}
-</p>
-    
+    {% comment %} tiene que ir excrito exactamente igual a lo que sale en el view 
+</p> 
+    {% endcomment %}
 
+    {% comment %}  el formulario que se manda por contexto {% endcomment %}
+
+    {{formulario}} 
     <input type="submit" value = 'Enviar Formulario'>
-    {% comment %} <button> Enviar Formulario </button>  {% endcomment %}
+    {% comment %} <button> Enviar Formulario </button>  {% endcomment %} 
 
 </form>
 {% endblock main %}
