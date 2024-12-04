@@ -85,4 +85,47 @@ def condicional_loop(request):
 
 # Opcion 2 crear auto - formulario
 def crear_auto(request):
-    return render (request, 'inicio/crear_auto.html',{})
+    
+    ###### VEAMOS QUE EL GET SE PUEDE USAR, PERO NO SE RECOMIENDA  ######
+    
+    #Verifica los datos que recibes
+    print('*****************************')
+    print('GET', request.GET)  # Verifica qué datos estás recibiendo
+    print('POST', request.POST)
+    print('******************************')
+
+    # marca = request.GET.get('marca')
+    # modelo = request.GET.get('modelo')
+    # anio = request.GET.get('anio')
+
+    # # Para evitar el error de los not null
+    # if marca and modelo and  anio:
+    #    # Si los parámetros son válidos, guarda el auto
+    #     auto = Auto(marca=marca, modelo=modelo, anio=anio)
+    #     auto.save() 
+
+    # # Renderiza la página de éxito
+    # return render(request, 'inicio/crear_auto.html', {})
+
+###### AHORA LO HACEMOS CON EL POST
+
+    marca = request.POST.get('marca')
+    modelo = request.POST.get('modelo')
+    anio = request.POST.get('anio')
+
+    # si la request viene por POST sí lo creo, si viene por GET no
+    if request.method == 'POST':
+        
+    # Para evitar el error de los not null
+        if marca and modelo and  anio:
+        # Si los parámetros son válidos, guarda el auto
+            auto = Auto(marca=marca, modelo=modelo, anio=anio)
+            auto.save() 
+
+    # Renderiza la página de éxito
+    return render(request, 'inicio/crear_auto.html', {})
+
+
+    
+
+

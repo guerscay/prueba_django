@@ -10,13 +10,40 @@ Crear Auto
 
 {% comment %} {% block header %}
 Inicio - Inicio
-{% endblock header %} {% endcomment %}
+{% endblock header %}  {% endcomment %}
 
 {% block main %}
-<form action={% url "crear_auto "%}> 
+{% comment %}
+Por un tema de seguridad se activa el CSRF token. Sin esto el post no puede funcionar
+{% endcomment %}
 
+{% comment %} <form action={% url "inicio:crear_auto" %} method = "get">  {% endcomment %}
+<form action={% url "inicio:crear_auto" %} method = "post">
+    {% csrf_token %}
 
+{% comment %} 
+<form action={% url "inicio:crear_auto" %} method = "get">  
+es recomendable hacerlo por post porque protege mejor la información {% endcomment %}
+<p>
+    marca
+    <input type="text" name= 'marca' placeholder = 'marca'>
+</p>
 
+<p>
+    modelo
+    <input type="text" name= 'modelo' placeholder = 'modelo'>
+
+</p>
+    
+<p>
+    anio
+    <input type="number" name= 'anio' placeholder = 'anio'>
+    {% comment %} tiene que ir excrito exactamente igual a lo que sale en el view {% endcomment %}
+</p>
+    
+
+    <input type="submit" value = 'Enviar Formulario'>
+    {% comment %} <button> Enviar Formulario </button>  {% endcomment %}
 
 </form>
 {% endblock main %}
