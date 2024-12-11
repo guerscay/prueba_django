@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title_head %}
+Autos
+{% endblock title_head %}
+{% block h1_header %}Listado de autos{% endblock h1_header %}
+
+{% block main %}
+
+<a href={% url "inicio:crear_auto" %}>Crear Auto</a>
+
+<p>
+    <form action={% url "inicio:listado_autos" %}>
+        
+        {% comment %} # v1 y v2
+        <input type="text" name='marca' placeholder='Ford, Fiat, Chevrolet...'>
+        <input type="text" name='modelo' placeholder='Uno, K, 206...'> {% endcomment %}
+        {{formulario}}
+    
+        <input type="submit" value='Buscar'>
+    
+    </form>
+</p>
+{% if listado_autos %}
+<ul>
+    {% for auto in listado_autos %}
+    <li>
+        {{ auto.marca }} {{ auto.modelo }} ({{ auto.anio }})
+        | <a href="{% url 'inicio:ver_auto' auto.id %}">Ver</a>
+        | <a href="{% url 'inicio:editar_auto' auto.id %}">Editar</a>
+        | <a href="{% url 'inicio:eliminar_auto' auto.id %}">Eliminar</a>  
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No se encontraron autos con esos criterios.</p>
+{% endif %}
+
+{% endblock main %}

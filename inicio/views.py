@@ -4,10 +4,11 @@
 from django.http import HttpResponse
 from datetime import datetime
 from django.template import Template, Context, loader
-from django.shortcuts import render 
+from django.shortcuts import render, redirect
 from inicio.models import Auto
 import random
-from inicio.forms import CrearAuto  # formularios!!!!!!!
+from inicio.forms import CrearAuto, BuscarAuto, EditarAuto
+
 
 def home(request):
     #return HttpResponse('<h1> Bienvenidos! </h1>')
@@ -133,6 +134,8 @@ def condicional_loop(request):
     
 def crear_auto(request):
     
+    print('*****************************')
+    
     formulario = CrearAuto()
     
     # si la request viene por POST sí lo creo, si viene por GET no
@@ -147,6 +150,103 @@ def crear_auto(request):
             
             return render(request, 'inicio/home.html',{})
 
-    # Renderiza la página de éxito
+    # Renderiza la página de crear auto
     return render(request, 'inicio/crear_auto.html', {'formulario':formulario}) #mi contexto ahora es el formulario
 
+# --------------------------------------------------------------------------------------------
+
+# Opción 1 - Traer todo sin buscar
+# def listado_autos(request):
+#     listado_autos = Auto.objects.all() # quiero todos los objetos de auto
+
+# Opción 2 - si quiero filtrar el auto que obtengo mediante una busqueda
+# def listado_autos(request):
+#     buscar_marca = request.GET.get('marca')
+#     #buscar_modelo = request.GET.get('modelo')
+    
+#     if buscar_marca:
+#         listado_autos = Auto.objects.filter(marca__icontains = buscar_marca) #filtra que la marca del auto CONTENGA los caracteres que busco
+#     else: 
+#         listado_autos = Auto.objects.all()
+
+
+    
+    # # Opcion 3 - Usando el GET
+    # listado_autos = Auto.objects.filter(marca__icontains = buscar_marca, modelo__icontains = buscar_modelo)
+    # return render(request, 'inicio/listado_autos.html', {'listado_autos':listado_autos})
+  
+    ### Modificacion de chatgpt - me gusta mas ###
+    # Obtener los parámetros de búsqueda desde la URL
+    # buscar_marca = request.GET.get('marca')
+    # buscar_modelo = request.GET.get('modelo')
+    
+    # # Filtrar según los parámetros proporcionados, si existen
+    # if buscar_marca and buscar_modelo:
+    #     listado_autos = Auto.objects.filter(marca__icontains=buscar_marca, modelo__icontains=buscar_modelo)
+    # elif buscar_marca:  # Si solo se proporciona marca
+    #     listado_autos = Auto.objects.filter(marca__icontains=buscar_marca)
+    # elif buscar_modelo:  # Si solo se proporciona modelo
+    #     listado_autos = Auto.objects.filter(modelo__icontains=buscar_modelo)
+    # else:  # Si no se proporciona ningún filtro, traer todos los autos
+    #     listado_autos = Auto.objects.all()
+    
+    # Opcion 4 - UTILIZANDO LOS FORMULARIOS DE DJANGO
+    
+def listado_autos(request):
+    
+    formulario_busqueda = BuscarAuto(request.GET or None)
+
+    if formulario_busqueda.is_valid():
+        marca_a_buscar = formulario_busqueda.cleaned_data.get('marca', '')
+        modelo_a_buscar = formulario_busqueda.cleaned_data.get('modelo', '')
+        resultado_autos = Auto.objects.filter(
+            marca__icontains=marca_a_buscar, 
+            modelo__icontains=modelo_a_buscar
+        )
+    else:
+        resultado_autos = []
+
+    return render(request, 'inicio/listado_autos.html', {
+        'listado_autos': resultado_autos, 
+        'formulario': formulario_busqueda
+    })
+    
+    # --------------------------------------------------------------------------------------------
+    
+def ver_auto(request, id_auto):
+    
+    auto = Auto.objects.get(id = id_auto)
+    
+    return render(request, 'inicio/ver_auto.html', {'auto': auto})
+
+# ------------------------------------------------
+def eliminar_auto(request, id_auto):
+
+    auto = Auto.objects.get(id = id_auto)
+    
+    auto.delete()
+    
+    return render(request, 'inicio/eliminar_auto.html', {'auto': auto})
+
+# ------------------------------------------------
+def editar_auto(request, id_auto):
+    
+    auto = Auto.objects.get(id = id_auto)
+    
+    formulario = EditarAuto(initial= {'marca': auto.marca
+                                      , 'modelo': auto.modelo
+                                      , 'anio': auto.anio})
+    
+    if request.method == 'POST':
+        formulario = EditarAuto(request.POST)
+        if formulario.is_valid():
+                        
+            auto.marca = formulario.cleaned_data.get('marca')
+            auto.modelo = formulario.cleaned_data.get('modelo')
+            auto.anio = formulario.cleaned_data.get('anio')
+        
+            auto.save()
+            
+            return redirect ('inicio:listado_autos.html')
+      
+    return render(request, 'inicio/editar_auto.html', {'formulario': formulario, 'auto': auto})
